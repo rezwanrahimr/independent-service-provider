@@ -1,5 +1,5 @@
-import React from "react";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useState } from "react";
+import { confirmPasswordReset, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import {auth} from '../../firebase.init' 
 
@@ -7,6 +7,10 @@ const provider = new GoogleAuthProvider();
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const [email,setEmail] = useState('');
+  console.log(email);
+  const [password,setPassword] = useState('');
+  const [confirmPassword,setConfirmPasswowrd] = useState('');
   const googleLogin =()=>{
 signInWithPopup(auth, provider)
 .then((result) => {
@@ -22,11 +26,16 @@ signInWithPopup(auth, provider)
 });
   }
 
+  const handleEmail =(event)=>{
+      setEmail(event);
+  }
+
 const handleLogin = (event)=>{
     event.preventDefault();
    const email = event.target.email.value;
    const password = event.target.password.value; 
-   createUserWithEmailAndPassword(auth, email, password)
+   const confirmPassword = event.target.confirmPassword.value;
+   createUserWithEmailAndPassword(auth, email, password,confirmPassword)
      .then((userCredential) => {
        // Signed in 
        const user = userCredential.user;
@@ -59,9 +68,9 @@ const handleLogin = (event)=>{
             </div>
           </div>
           <div className='input-field'>
-            <label htmlFor='ConfirmPassword'>Confirm Password</label>
+            <label htmlFor='confirmPassword'>Confirm Password</label>
             <div className='input-wrapper'>
-              <input type='ConfirmPassword' name='ConfirmPassword' id='ConfirmPassword' />
+              <input type='confirmPassword' name='confirmPassword' id='confirmPassword' />
             </div>
           </div>
           <button type='submit' className='auth-form-submit'>
