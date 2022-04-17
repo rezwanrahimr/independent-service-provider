@@ -1,7 +1,38 @@
-import React from 'react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import './Header.css'
+import { auth } from '../../firebase.init';
 
 const Header = () => {
+
+
+  const [user,setUser] = useState({});
+  useEffect(()=>{
+      onAuthStateChanged(auth, (user) => {
+          console.log(user);
+          if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            setUser(user);
+            // ...
+          } else {
+              setUser({});
+            // User is signed out
+            // ...
+          }
+        });
+  },[])
+  
+      const signOutt = ()=>{
+          
+  signOut(auth)
+  .then(() => {
+    // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+  });
+      }
     
     return (
         <div>
@@ -15,9 +46,11 @@ const Header = () => {
         alt="React Bootstrap logo"
       /></Navbar.Brand>
     <Nav className="me-auto mx-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
+      <Nav.Link href="/home">Home</Nav.Link>
+      <Nav.Link href="/features">Features</Nav.Link>
+      {
+                user?.uid? (<Nav.Link onClick={signOutt} href="/login">SignOut</Nav.Link> ): ( <Nav.Link href="/login">Login</Nav.Link> ) 
+            }
     </Nav>
     </Container>
   </Navbar>

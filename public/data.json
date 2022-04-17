@@ -1,0 +1,37 @@
+[{
+    "id":1,
+    "name":"Plastic Surgery",
+    "image":"https://3.bp.blogspot.com/-a-IW2JQVPmM/V68neOOpnHI/AAAAAAAAJVI/v761tzg1sUMVKbR8bbZe-po-f5kvzH7mwCLcB/s1600/Neuromedicine%2BSpecialist.jpg",
+    "price":"$2500"
+
+},
+{
+    "id":2,
+    "name":"Dental Care",
+    "image":"https://images.indianexpress.com/2019/05/dentist_759_ts-1.jpg",
+    "price":"$2900"
+},
+{
+    "id":3,
+    "name":"Eye Care",
+    "image":"https://assets.vccircle.com/uploads/2019/06/Eyecarerf.jpg",
+    "price":"$21200" 
+},
+{
+    "id":4,
+    "name":"Cardiology",
+    "image":"https://www.camc.org/sites/default/files/styles/800x600/public/2020-09/Cardiology_hero_0.jpg?itok=P_f6wuVG",
+    "price":"$22300" 
+},
+{
+    "id":5,
+    "name":"Neurosurgery",
+    "image":"https://www.pennstatehealth.org/sites/default/files/styles/800x600/public/Neurosurgery/Neurosurgery2.jpg?itok=anj2L_K7",
+    "price":"$24500"
+},
+{
+    "id":6,
+    "name":"Cancer Care",
+    "image":"https://phixgenomics.com/wp-content/uploads/2018/06/4cf0cada00000578-5713631-image-a-32_1528211359384.jpg",
+    "price":"$2860"
+}]

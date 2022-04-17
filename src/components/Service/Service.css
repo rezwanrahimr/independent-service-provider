@@ -1,0 +1,8 @@
+.service-image{
+    width: 20%;
+    border-radius: 50px;
+}
+.servie-item{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
