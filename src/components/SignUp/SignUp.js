@@ -2,11 +2,10 @@ import React from "react";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import {auth} from '../../firebase.init' 
-import './Login.css'
 
 const provider = new GoogleAuthProvider();
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const googleLogin =()=>{
 signInWithPopup(auth, provider)
@@ -45,7 +44,7 @@ const handleLogin = (event)=>{
   return (
     <div className='auth-form-container '>
       <div className='auth-form'>
-        <h1>Login</h1>
+        <h1>SignUp</h1>
         <form onSubmit={handleLogin}>
           <div className='input-field'>
             <label htmlFor='email'>Email</label>
@@ -59,13 +58,19 @@ const handleLogin = (event)=>{
               <input type='password' name='password' id='password' />
             </div>
           </div>
+          <div className='input-field'>
+            <label htmlFor='ConfirmPassword'>Confirm Password</label>
+            <div className='input-wrapper'>
+              <input type='ConfirmPassword' name='ConfirmPassword' id='ConfirmPassword' />
+            </div>
+          </div>
           <button type='submit' className='auth-form-submit'>
-            Login
+            SignUp
           </button>
         </form>
         <p className='redirect'>
          
-          <span onClick={() => navigate("/signup")}>Create New Account</span>
+          <span onClick={() => navigate("/login")}>alredy have a account</span>
         </p>
         <div className='horizontal-divider'>
           <div className='line-left' />
@@ -83,4 +88,4 @@ const handleLogin = (event)=>{
   );
 };
 
-export default Login;
+export default SignUp;
