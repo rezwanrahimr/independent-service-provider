@@ -7,10 +7,9 @@ const provider = new GoogleAuthProvider();
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [email,setEmail] = useState('');
-  console.log(email);
-  const [password,setPassword] = useState('');
-  const [confirmPassword,setConfirmPasswowrd] = useState('');
+  const [email,setEmail] = useState({value:"",error:""});
+  const [password,setPassword] = useState({value:"",error:""});
+  const [confirmPassword,setConfirmPasswowrd] = useState({value:"",error:""});
   const googleLogin =()=>{
 signInWithPopup(auth, provider)
 .then((result) => {
@@ -27,15 +26,54 @@ signInWithPopup(auth, provider)
   }
 
   const handleEmail =(event)=>{
-      setEmail(event);
+    const emailInput = event.target.value;
+    if(/\S+@\S+\.\S+/.test(emailInput)){
+      setEmail({value: emailInput,error:""})
+    }
+    else{
+      setEmail({value:"",error:"please Provide the valid Email"});
+    }
+      
   }
+  const handlePassword = (event)=>{
+    const passwordInput = event.target.value;
+    if(passwordInput.length < 6){
+      setPassword({value:"",error:"password to short"})
+    }else if(!/(?=.*[A-Z])/.test(passwordInput)){
+      setPassword({
+        value:"",error:"password must contain a capital letter"
+      });
+    }
+    else{
+      setPassword({value:"passwordInput",error:""});
+    }
+  };
+  const handleConfirmPassword = (confirmPassword) =>{
+    if(confirmPassword == password.value){
+      setConfirmPasswowrd({value: confirmPassword, error:""})
+    }
+    else{
+      setConfirmPasswowrd({value:"", error:"password mismatch"})
+    }
+   
+  }
+console.log(email);
 
 const handleLogin = (event)=>{
     event.preventDefault();
+    
    const email = event.target.email.value;
    const password = event.target.password.value; 
    const confirmPassword = event.target.confirmPassword.value;
-   createUserWithEmailAndPassword(auth, email, password,confirmPassword)
+    if(email.value == ""){
+      setEmail({value:"",error:"Email is requard"})
+    }
+    if(password.value == ""){
+      setPassword({value:"",error:"password is requard"})
+    }
+    if(email.value && password.value == confirmPassword.value){
+
+   createUserWithEmailAndPassword(auth, email.value, password.value,)
      .then((userCredential) => {
        // Signed in 
        const user = userCredential.user;
@@ -49,6 +87,7 @@ const handleLogin = (event)=>{
        console.log(errorMessage);
        // ..
      });
+    }
 };
   return (
     <div className='auth-form-container '>
@@ -58,20 +97,30 @@ const handleLogin = (event)=>{
           <div className='input-field'>
             <label htmlFor='email'>Email</label>
             <div className='input-wrapper'>
-              <input type='text' name='email' id='email' />
+              <input onBlur={handleEmail} type='text' name='email' id='email' />
             </div>
+            {
+             
+              email?.error && <p>{email.error}</p>
+            }
           </div>
           <div className='input-field'>
             <label htmlFor='password'>Password</label>
             <div className='input-wrapper'>
-              <input type='password' name='password' id='password' />
+              <input onBlur={handlePassword} type='password' name='password' id='password' />
             </div>
+            {
+              password.error && <p>{password.error}</p>
+            }
           </div>
           <div className='input-field'>
             <label htmlFor='confirmPassword'>Confirm Password</label>
             <div className='input-wrapper'>
-              <input type='confirmPassword' name='confirmPassword' id='confirmPassword' />
+              <input onBlur={handleConfirmPassword} type='Password' name='confirmPassword' id='confirmPassword' />
             </div>
+            {
+              confirmPassword.error && <p>{confirmPassword.error}</p>
+            }
           </div>
           <button type='submit' className='auth-form-submit'>
             SignUp
