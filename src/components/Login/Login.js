@@ -39,13 +39,13 @@ const handleLogin = (event)=>{
      .catch((error) => {
        const errorCode = error.code;
        const errorMessage = error.message;
-       if(errorMessage.includes("Already in Use")){
-        toast.error("Email already in use",{id:"errormessage"});
+      //  if(errorMessage.includes("Already in Use")){
+      //   toast.error("Email already in use",{id:"errormessage"});
 
-      }
-      else{
-        toast.error(errorMessage,{id:"errormessage"});
-      }
+      // }
+      // else{
+      //   toast.error(errorMessage,{id:"errormessage"});
+      // }
        // ..
      });
 };

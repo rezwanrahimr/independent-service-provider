@@ -47,7 +47,8 @@ const Header = () => {
       /></Navbar.Brand>
     <Nav className="me-auto mx-auto">
       <Nav.Link href="/home">Home</Nav.Link>
-      <Nav.Link href="/features">Features</Nav.Link>
+      <Nav.Link href="/blog">Blog</Nav.Link>
+      <Nav.Link href="/about">about</Nav.Link>
       {
                 user?.uid? (<Nav.Link onClick={signOutt} href="/login">SignOut</Nav.Link> ): ( <Nav.Link href="/login">Login</Nav.Link> ) 
             }

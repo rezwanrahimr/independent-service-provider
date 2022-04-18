@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {  Button, Card, Col, Row } from 'react-bootstrap';
 import './Service.css'
+import { useNavigate } from "react-router-dom";
 
 
 const Service = () => {
+    const navigate = useNavigate();
     const [data,setData] = useState([]);
     useEffect(()=>{
         fetch('data.json')
@@ -13,7 +15,7 @@ const Service = () => {
     console.log(data);
     return (
         <div>
-            <h1>Hello service</h1>
+            <h1 className='fw-bold my-4'>service</h1>
             <div  className=' container servie-item'>
             {
                 data.map(datas => <div key={datas.id} className="container my-4">
@@ -24,9 +26,11 @@ const Service = () => {
             <Card.Body>
                 <Card.Title className='fw-bold'>{datas.name}</Card.Title>
                 <Card.Text>
-                <small>{datas.price}</small>
+                    <small>{datas.text}</small>
+                 <br></br>
+                <small className='fw-bold'>{datas.price}</small>
                 </Card.Text>
-                <Button className='rounded-pill px-4 ' variant="outline-success">Appointment । +</Button>{' '}
+                <Button className='rounded-pill px-4 ' onClick={() => navigate("/checkout")} variant="outline-success">Appointment । +</Button>{' '}
             </Card.Body>
             </Card>
               
