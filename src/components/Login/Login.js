@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import React, { useRef } from "react";
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
@@ -10,8 +11,7 @@ import './Login.css'
 
 const provider = new GoogleAuthProvider();
 const Login = () => {
-  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
-  const email = useRef('');
+ 
   const googleAuth = ()=>{
 
     signInWithPopup(auth, provider)
@@ -41,6 +41,8 @@ const Login = () => {
   ] = useSignInWithEmailAndPassword(auth);
   console.log(user);
 
+  
+
 if(error){
   alert(error.message);
 }
@@ -60,12 +62,13 @@ if(user){
      
       signInWithEmailAndPassword(email, password)
       
+
+      
   }
   
 
+ 
   
-
-    
    
 
 
@@ -78,7 +81,7 @@ if(user){
           <div className='input-field'>
             <label htmlFor='email'>Email</label>
             <div className='input-wrapper'>
-              <input ref={email} type='text' name='email' id='email' />
+              <input  type='text' name='email' id='email' />
             </div>
           </div>
           <div className='input-field'>
@@ -96,7 +99,7 @@ if(user){
          
           <span onClick={() => navigate("/signup")}>Create New Account</span>
         </p>
-        <button onClick={()=>sendPasswordResetEmail(email.current.value)} type="submit" className="reset">Reset Password</button>
+        <button  className="reset">Reset Password</button>
         <div className='horizontal-divider'>
           <div className='line-left' />
           <p>or</p>
