@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } f
 import { useNavigate } from "react-router-dom";
 import {auth} from '../../firebase.init' 
 import './Login.css'
+import toast from "react-hot-toast";
 
 const provider = new GoogleAuthProvider();
 
@@ -38,7 +39,13 @@ const handleLogin = (event)=>{
      .catch((error) => {
        const errorCode = error.code;
        const errorMessage = error.message;
-       console.log(errorMessage);
+       if(errorMessage.includes("Already in Use")){
+        toast.error("Email already in use",{id:"errormessage"});
+
+      }
+      else{
+        toast.error(errorMessage,{id:"errormessage"});
+      }
        // ..
      });
 };
