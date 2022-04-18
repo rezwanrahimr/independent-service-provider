@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import {auth} from '../../firebase.init' 
 import './Login.css'
 import toast from "react-hot-toast";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const provider = new GoogleAuthProvider();
 
 const Login = () => {
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const googleLogin =()=>{
 signInWithPopup(auth, provider)

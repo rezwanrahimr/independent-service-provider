@@ -3,10 +3,12 @@ import { confirmPasswordReset, createUserWithEmailAndPassword, GoogleAuthProvide
 import { useNavigate } from "react-router-dom";
 import {auth} from '../../firebase.init' 
 import toast from "react-hot-toast";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const provider = new GoogleAuthProvider();
 
 const SignUp = () => {
+  const [user] = useAuthState(auth);
   const navigate = useNavigate();
   const [email,setEmail] = useState({value:"",error:""});
   const [password,setPassword] = useState({value:"",error:""});

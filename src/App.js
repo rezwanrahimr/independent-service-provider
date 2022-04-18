@@ -8,6 +8,8 @@ import { Toaster } from 'react-hot-toast';
 import CheckOut from './components/CheckOut/CheckOut';
 import Blog from './components/Blog/Blog';
 import About from './components/About/About';
+import RequredAuth from './components/RequireAuth/RequireAuth';
+import Error from './components/Error/Error';
 
 function App() {
   return (
@@ -19,9 +21,10 @@ function App() {
        <Route path='/home' element={<Home></Home>}></Route>
        <Route path='/login' element={<Login></Login>}></Route>
        <Route path='/signup' element={<Signup></Signup>}></Route>
-       <Route path='/checkout' element={<CheckOut></CheckOut>}></Route>
+       <Route path='/checkout' element={<RequredAuth><CheckOut></CheckOut></RequredAuth>}></Route>
        <Route path='/blog' element={<Blog></Blog>}></Route>
        <Route path='/about' element={<About></About>}></Route>
+       <Route path='*' element={<Error></Error>}></Route>
      </Routes>
     </div>
   );
