@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './Header.css'
 import { auth } from '../../firebase.init';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 
@@ -45,12 +46,12 @@ const Header = () => {
         className="d-inline-block align-top"
         alt="React Bootstrap logo"
       /></Navbar.Brand>
-    <Nav className="me-auto mx-auto">
-      <Nav.Link href="/home">Home</Nav.Link>
-      <Nav.Link href="/blog">Blog</Nav.Link>
-      <Nav.Link href="/about">about</Nav.Link>
+    <Nav className="me-auto mx-auto ">
+      <Link className='text-decoration-none fw-bold me-4 text-black' to="/home">Home</Link>
+      <Link className='text-decoration-none fw-bold me-4 text-black' to="/blog">Blog</Link>
+      <Link className='text-decoration-none fw-bold me-4 text-black' to="/about">about</Link>
       {
-                user?.uid? (<Nav.Link onClick={signOutt} href="/login">SignOut</Nav.Link> ): ( <Nav.Link href="/login">Login</Nav.Link> ) 
+                user?.uid? (<Link className='text-decoration-none fw-bold me-4 text-black' onClick={signOutt} to="/login">SignOut</Link> ): ( <Link className='text-decoration-none fw-bold me-4 text-black' to="/login">Login</Link> ) 
             }
     </Nav>
     </Container>
