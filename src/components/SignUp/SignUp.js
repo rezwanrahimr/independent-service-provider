@@ -1,102 +1,74 @@
 import React, { useState } from "react";
-import { confirmPasswordReset, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import {auth} from '../../firebase.init' 
-import toast from "react-hot-toast";
-import { useAuthState } from 'react-firebase-hooks/auth';
 
+import {
+  useCreateUserWithEmailAndPassword
+} from "react-firebase-hooks/auth";
+import auth from "../../firebase";
+import { GoogleAuthProvider, sendEmailVerification, signInWithPopup } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 
 const SignUp = () => {
-  const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  const [email,setEmail] = useState({value:"",error:""});
-  const [password,setPassword] = useState({value:"",error:""});
-  const [confirmPassword,setConfirmPasswowrd] = useState({value:"",error:""});
-  const googleLogin =()=>{
-signInWithPopup(auth, provider)
-.then((result) => {
-  const credential = GoogleAuthProvider.credentialFromResult(result);
-  const token = credential.accessToken;
-  const user = result.user;
-  navigate("/");
-}).catch((error) => {
-  const errorCode = error.code;
-  const errorMessage = error.message;
-  const email = error.email;
-  const credential = GoogleAuthProvider.credentialFromError(error);
-});
-  }
 
-  const handleEmail =(event)=>{
-    const emailInput = event.target.value;
-    if(/\S+@\S+\.\S+/.test(emailInput)){
-      setEmail({value: emailInput,error:""})
-    }
-    else{
-      setEmail({value:"",error:"please Provide the valid Email"});
-    }
+  const googleAuth = ()=>{
+
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      navigate('/home');
+     
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
       
+    })
   }
-  const handlePassword = (event)=>{
-    const passwordInput = event.target.value;
-    if(passwordInput.length < 6){
-      setPassword({value:"",error:"password to short"})
-    }else if(!/(?=.*[A-Z])/.test(passwordInput)){
-      setPassword({
-        value:"",error:"password must contain a capital letter"
-      });
-    }
-    else{
-      setPassword({value:"passwordInput",error:""});
-    }
-  };
-  const handleConfirmPassword = (confirmPassword) =>{
-    if(confirmPassword == password.value){
-      setConfirmPasswowrd({value: confirmPassword, error:""})
-    }
-    else{
-      setConfirmPasswowrd({value:"", error:"password mismatch"})
-    }
-   
-  }
-console.log(email);
+  
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth,{sendEmailVerification:true});
+  console.log(error);
 
-const handleLogin = (event)=>{
-    event.preventDefault();
+  if(error){
+    alert(error.message);
+  }
+  
+  if(loading){
+    return <p>Loading...</p>
+  }
+  
+  if(user){
+    navigate("/home");
+  }
+
+const handleLogin =(e)=>{
+  e.preventDefault();
+
+  const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(
+      email, password
+    );
+    createUserWithEmailAndPassword(email,password);
+  
     
-   const email = event.target.email.value;
-   const password = event.target.password.value; 
-   const confirmPassword = event.target.confirmPassword.value;
-    if(email.value == ""){
-      setEmail({value:"",error:"Email is requard"})
-    }
-    if(password.value == ""){
-      setPassword({value:"",error:"password is requard"})
-    }
-    if(email.value && password.value == confirmPassword.value){
+   
 
-   createUserWithEmailAndPassword(auth, email.value, password.value,)
-     .then((userCredential) => {
-       // Signed in 
-       const user = userCredential.user;
-       console.log(user);
-       navigate("/");
-       // ...
-     })
-     .catch((error) => {
-       const errorCode = error.code;
-       const errorMessage = error.message;
-      if(errorMessage.includes("Already in Use")){
-        toast.error("Email already in use",{id:"errormessage"});
+}
+console.log(user)
+ 
 
-      }
-      else{
-        toast.error(errorMessage,{id:"error"});
-      }
-     });
-    }
-};
+
+
+
   return (
     <div className='auth-form-container '>
       <div className='auth-form'>
@@ -105,30 +77,30 @@ const handleLogin = (event)=>{
           <div className='input-field'>
             <label htmlFor='email'>Email</label>
             <div className='input-wrapper'>
-              <input onBlur={handleEmail} type='text' name='email' id='email' />
+              <input  type='text' name='email' id='email' />
             </div>
-            {
+            {/* {
              
               email?.error && <p>{email.error}</p>
-            }
+            } */}
           </div>
           <div className='input-field'>
             <label htmlFor='password'>Password</label>
             <div className='input-wrapper'>
-              <input onBlur={handlePassword} type='password' name='password' id='password' />
+              <input type='password' name='password' id='password' />
             </div>
-            {
+            {/* {
               password.error && <p>{password.error}</p>
-            }
+            } */}
           </div>
           <div className='input-field'>
             <label htmlFor='confirmPassword'>Confirm Password</label>
             <div className='input-wrapper'>
-              <input onBlur={handleConfirmPassword} type='Password' name='confirmPassword' id='confirmPassword' />
+              <input  type='Password' name='confirmPassword' id='confirmPassword' />
             </div>
-            {
+            {/* {
               confirmPassword.error && <p>{confirmPassword.error}</p>
-            }
+            } */}
           </div>
           <button type='submit' className='auth-form-submit'>
             SignUp
@@ -144,7 +116,7 @@ const handleLogin = (event)=>{
           <div className='line-right' />
         </div>
         <div className='input-wrapper'>
-          <button onClick={googleLogin} className='google-auth'>
+          <button onClick={googleAuth} className='google-auth'>
            
             <p> Continue with Google </p>
           </button>

@@ -1,56 +1,75 @@
-import React from "react";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useRef } from "react";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
-import {auth} from '../../firebase.init' 
+import auth from "../../firebase";
 import './Login.css'
-import toast from "react-hot-toast";
-import { useAuthState } from "react-firebase-hooks/auth";
+
+
+
 
 const provider = new GoogleAuthProvider();
-
 const Login = () => {
-  const [user] = useAuthState(auth);
-  const navigate = useNavigate();
-  const googleLogin =()=>{
-signInWithPopup(auth, provider)
-.then((result) => {
-  const credential = GoogleAuthProvider.credentialFromResult(result);
-  const token = credential.accessToken;
-  const user = result.user;
-  navigate("/");
-}).catch((error) => {
-  const errorCode = error.code;
-  const errorMessage = error.message;
-  const email = error.email;
-  const credential = GoogleAuthProvider.credentialFromError(error);
-});
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+  const email = useRef('');
+  const googleAuth = ()=>{
+
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      navigate("/home")
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+     
+    })
+  
+
   }
+ 
+  const navigate = useNavigate();
+  
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
+  console.log(user);
 
-const handleLogin = (event)=>{
-    event.preventDefault();
-   const email = event.target.email.value;
-   const password = event.target.password.value; 
-   createUserWithEmailAndPassword(auth, email, password)
-     .then((userCredential) => {
-       // Signed in 
-       const user = userCredential.user;
-       console.log(user);
-       navigate("/");
-       // ...
-     })
-     .catch((error) => {
-       const errorCode = error.code;
-       const errorMessage = error.message;
-      //  if(errorMessage.includes("Already in Use")){
-      //   toast.error("Email already in use",{id:"errormessage"});
+if(error){
+  alert(error.message);
+}
 
-      // }
-      // else{
-      //   toast.error(errorMessage,{id:"errormessage"});
-      // }
-       // ..
-     });
-};
+if(loading){
+  return <p>Loading...</p>
+}
+
+if(user){
+  navigate("/home");
+}
+
+  const handleLogin =(e)=>{
+
+    const email = e.target.email.value;
+      const password = e.target.password.value;
+     
+      signInWithEmailAndPassword(email, password)
+      
+  }
+  
+
+  
+
+    
+   
+
+
+ 
   return (
     <div className='auth-form-container '>
       <div className='auth-form'>
@@ -59,7 +78,7 @@ const handleLogin = (event)=>{
           <div className='input-field'>
             <label htmlFor='email'>Email</label>
             <div className='input-wrapper'>
-              <input type='text' name='email' id='email' />
+              <input ref={email} type='text' name='email' id='email' />
             </div>
           </div>
           <div className='input-field'>
@@ -68,6 +87,7 @@ const handleLogin = (event)=>{
               <input type='password' name='password' id='password' />
             </div>
           </div>
+        
           <button type='submit' className='auth-form-submit'>
             Login
           </button>
@@ -76,14 +96,15 @@ const handleLogin = (event)=>{
          
           <span onClick={() => navigate("/signup")}>Create New Account</span>
         </p>
+        <button onClick={()=>sendPasswordResetEmail(email.current.value)} type="submit" className="reset">Reset Password</button>
         <div className='horizontal-divider'>
           <div className='line-left' />
           <p>or</p>
           <div className='line-right' />
         </div>
         <div className='input-wrapper'>
-          <button onClick={googleLogin} className='google-auth'>
-           
+          <button  onClick={ googleAuth} className='google-auth'>
+            
             <p> Continue with Google </p>
           </button>
         </div>

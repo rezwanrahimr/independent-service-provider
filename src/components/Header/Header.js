@@ -2,8 +2,9 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import './Header.css'
-import { auth } from '../../firebase.init';
+
 import { Link } from 'react-router-dom';
+import auth from '../../firebase';
 
 const Header = () => {
 

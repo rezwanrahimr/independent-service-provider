@@ -21,7 +21,7 @@ const Service = () => {
                 data.map(datas => <div key={datas.id} className="container my-4">
                     
             
-            <Card style={{ width: '18rem' }}>
+            <Card   style={{ width: '18rem' }}>
             <Card.Img variant="top" src={datas.image} />
             <Card.Body>
                 <Card.Title className='fw-bold'>{datas.name}</Card.Title>
