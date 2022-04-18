@@ -1,6 +1,8 @@
 import React from 'react';
 import './Footer.css';
 
+
+// This is Footer Section.
 const Footer = () => {
     return (
         <div className='footer'>
@@ -12,7 +14,7 @@ const Footer = () => {
                 <li><a href="">PRIVACY POLICY</a></li>
             </ul>
             <p className='call'>Call: +090266343444
-                     +544370345543
+                +544370345543
             </p>
             <p className='email'>Email: Dr.AntoniaNovello@gmail.com
             </p>

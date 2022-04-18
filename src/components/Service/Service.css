@@ -1,15 +1,17 @@
-.service-image{
+.service-image {
     width: 20%;
     border-radius: 50px;
 }
-.servie-item{
+
+.servie-item {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
+
 /* make responsive */
 @media only screen and (max-width:576px) {
-    .servie-item{
-        grid-template-columns: repeat(1,1fr);
+    .servie-item {
+        grid-template-columns: repeat(1, 1fr);
     }
-    
+
 }
